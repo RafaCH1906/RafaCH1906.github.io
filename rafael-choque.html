@@ -1,0 +1,304 @@
+<title>Rafael Choque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+  /* Layout: una columna a la izquierda, ancho de lectura 62rem; el proyecto actual (bomberos) ocupa el primer plano con su mapa de arquitectura. */
+  :root {
+    --bg: #F2F5F7;
+    --surface: #FFFFFF;
+    --fg: #14202B;
+    --muted: #55636F;
+    --line: #D6DDE3;
+    --accent: #C22E1B;
+    --accent-soft: #FBE6E2;
+    --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E151C; --surface: #151F29; --fg: #E7EDF2; --muted: #93A2AF;
+      --line: #263441; --accent: #FF7358; --accent-soft: #3A1F1B; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E151C; --surface: #151F29; --fg: #E7EDF2; --muted: #93A2AF;
+    --line: #263441; --accent: #FF7358; --accent-soft: #3A1F1B; color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: var(--font-body); font-size: 1rem; line-height: 1.6;
+    padding-inline: 1rem; padding-block: 0 4rem; margin: 0;
+  }
+  .wrap { max-width: 62rem; margin-inline: auto; }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.1; }
+  p { margin: 0; }
+  .mono { font-family: var(--font-mono); }
+  .label {
+    font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  /* Top bar */
+  .bar { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; justify-content: space-between; align-items: center; padding-block: 1.25rem; border-bottom: 1px solid var(--line); }
+  .bar .who { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; text-decoration: none; }
+  .bar nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; font-size: 0.9rem; }
+  .bar nav a { color: var(--muted); text-decoration: none; padding-block: 0.25rem; }
+  .bar nav a:hover { color: var(--fg); }
+
+  /* Hero */
+  .hero { padding-block: 3.5rem 3rem; display: grid; gap: 1.5rem; }
+  .status { display: inline-flex; align-items: center; gap: 0.6rem; width: fit-content; max-width: 100%; font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+  .dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--accent); flex: none; }
+  .hero h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); font-weight: 700; letter-spacing: -0.03em; }
+  .hero h1 span { color: var(--muted); font-weight: 500; }
+  .hero .lede { max-width: 40rem; font-size: 1.125rem; color: var(--fg); }
+  .links { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .btn { display: inline-flex; align-items: center; min-height: 2.5rem; padding: 0.4rem 1rem; border: 1px solid var(--fg); border-radius: 0.25rem; text-decoration: none; font-weight: 600; font-size: 0.9rem; background: var(--fg); color: var(--bg); }
+  .btn.ghost { background: transparent; color: var(--fg); border-color: var(--line); }
+  .btn:hover { border-color: var(--accent); }
+
+  section { padding-block: 3rem; border-top: 1px solid var(--line); display: grid; gap: 1.75rem; }
+  section > header { display: grid; gap: 0.5rem; }
+  section h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); letter-spacing: -0.02em; }
+
+  /* Featured project */
+  .feature { background: var(--surface); border: 1px solid var(--line); border-radius: 0.5rem; padding: clamp(1.1rem, 3vw, 2rem); display: grid; gap: 1.5rem; }
+  .feature-head { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; justify-content: space-between; align-items: baseline; }
+  .feature h3 { font-size: clamp(1.4rem, 3.4vw, 1.9rem); letter-spacing: -0.015em; }
+  .tag { font-family: var(--font-mono); font-size: 0.75rem; padding: 0.15rem 0.55rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+  .feature p { max-width: 42rem; color: var(--fg); }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1.25rem 2rem; }
+  .facts dt { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .facts dd { margin: 0.2rem 0 0; }
+  .facts > div { min-width: 0; }
+
+  /* Architecture map */
+  .map { display: grid; gap: 0.9rem; padding: 1.1rem; border: 1px dashed var(--line); border-radius: 0.4rem; }
+  .lane { display: grid; gap: 0.5rem; }
+  .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 0.4rem; }
+  .node { min-width: 0; padding: 0.5rem 0.8rem; border: 1px solid var(--line); border-radius: 0.3rem; background: var(--bg); font-family: var(--font-mono); font-size: 0.8rem; display: grid; gap: 0.1rem; }
+  .node small { color: var(--muted); font-size: 0.7rem; }
+  .node.mine { border-color: var(--accent); background: var(--accent-soft); }
+  .arrow { align-self: center; color: var(--muted); font-family: var(--font-mono); }
+  .envs { display: flex; gap: 0.3rem; margin-top: 0.25rem; }
+  .envs i { font-style: normal; font-size: 0.68rem; padding: 0 0.4rem; border: 1px solid var(--line); border-radius: 0.2rem; color: var(--muted); }
+
+  /* Project list */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1rem; }
+  .card { display: grid; gap: 0.75rem; align-content: start; padding: 1.25rem; border: 1px solid var(--line); border-radius: 0.4rem; background: var(--surface); }
+  .card h3 { font-size: 1.25rem; }
+  .card .meta { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); }
+  .card ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.35rem; font-size: 0.95rem; }
+  .card a.more { font-weight: 600; font-size: 0.9rem; width: fit-content; }
+
+  .repos { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 0.6rem; }
+  .repos a { display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.6rem 0.8rem; border: 1px solid var(--line); border-radius: 0.3rem; text-decoration: none; font-family: var(--font-mono); font-size: 0.85rem; background: var(--surface); }
+  .repos a:hover { border-color: var(--accent); }
+  .repos span { color: var(--muted); }
+
+  /* Stack */
+  .stack { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.5rem; }
+  .stack h3 { font-size: 1rem; margin-bottom: 0.6rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+  .chips li { padding: 0.2rem 0.6rem; border: 1px solid var(--line); border-radius: 0.25rem; font-size: 0.85rem; background: var(--surface); }
+  .chips li.now { border-color: var(--accent); }
+
+  .about { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 2rem; }
+  .about p + p { margin-top: 0.9rem; }
+  .about dl { margin: 0; display: grid; gap: 1rem; align-content: start; }
+  .about dt { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .about dd { margin: 0.15rem 0 0; }
+  @media (max-width: 42rem) { .about { grid-template-columns: minmax(0, 1fr); } }
+
+  footer { padding-top: 2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content: space-between; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+
+<div class="wrap">
+  <div class="bar">
+    <a class="who" href="#top">Rafael Choque</a>
+    <nav aria-label="Secciones">
+      <a href="#proyectos">Proyectos</a>
+      <a href="#stack">Stack</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+
+  <header class="hero" id="top">
+    <p class="status"><span class="dot" aria-hidden="true"></span>Lima, Perú · Disponible para roles junior</p>
+    <h1>Rafael Choque <span>Backend y Full-Stack Developer</span></h1>
+    <p class="lede">Estudio Ciencias de la Computación en UTEC (5.º ciclo). Construyo APIs con Java Spring Boot y Python, interfaces con React, y despliego en AWS. Hoy trabajo como backend en un sistema real para la Compañía de Bomberos N°3.</p>
+    <div class="links">
+      <a class="btn" href="#proyectos">Ver proyectos</a>
+      <a class="btn ghost" href="https://github.com/RafaCH1906">GitHub</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/rafael-rodrigo-choque-coaquira-6b7720371/">LinkedIn</a>
+    </div>
+  </header>
+
+  <section id="proyectos">
+    <header>
+      <span class="label">Proyectos</span>
+      <h2>Lo que estoy construyendo y lo que ya publiqué</h2>
+    </header>
+
+    <article class="feature">
+      <div class="feature-head">
+        <h3>Sistema para la Compañía de Bomberos N°3</h3>
+        <span class="tag">En desarrollo · 2026</span>
+      </div>
+      <p>Sistema de gestión documental e inventario para una compañía de bomberos, desarrollado en equipo para el curso CS3081 de UTEC. Mi rol es backend: servicios en Python, base de datos en RDS y despliegue automatizado por entorno.</p>
+
+      <div class="map" role="img" aria-label="Arquitectura: frontend en Next.js, microservicio de seguridad con API Gateway, dos Lambdas y Cognito, y backend en Python desplegado con Jenkins y Docker sobre RDS con tres bases de datos.">
+        <div class="lane">
+          <span class="label">Seguridad · serverless</span>
+          <div class="flow">
+            <div class="node">Frontend<small>Next.js</small></div>
+            <span class="arrow">→</span>
+            <div class="node">API Gateway</div>
+            <span class="arrow">→</span>
+            <div class="node">2 × Lambda</div>
+            <span class="arrow">→</span>
+            <div class="node">Cognito</div>
+          </div>
+        </div>
+        <div class="lane">
+          <span class="label">Backend · contenedor</span>
+          <div class="flow">
+            <div class="node">Jenkins<small>despliegue automático</small></div>
+            <span class="arrow">→</span>
+            <div class="node mine">Backend<small>Python · Docker</small></div>
+            <span class="arrow">→</span>
+            <div class="node">RDS<small>una base por entorno</small>
+              <span class="envs"><i>dev</i><i>qa</i><i>uat</i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <dl class="facts">
+        <div><dt>Rol</dt><dd>Backend, asignado por el Project Manager</dd></div>
+        <div><dt>Stack</dt><dd>Python, AWS (Cognito, Lambda, API Gateway, RDS), Serverless Framework, Docker, Jenkins</dd></div>
+        <div><dt>Entornos</dt><dd>Ramas dev, qa y uat, cada una con su base de datos</dd></div>
+        <div><dt>Equipo</dt><dd>Backend, frontend y testing por separado</dd></div>
+      </dl>
+    </article>
+
+    <div class="grid">
+      <article class="card">
+        <span class="meta">2024 · Curso DBP, UTEC</span>
+        <h3>QoriBet</h3>
+        <p>Plataforma web de apuestas de fútbol con ligas de Perú, España, Inglaterra, Bundesliga y Champions League. Finalista del curso, 4.º lugar entre todos los equipos ante jurado.</p>
+        <ul>
+          <li>Integración con una API deportiva en tiempo real: autenticación, rate limits y normalización de datos.</li>
+          <li>Backend en Java Spring Boot con REST, JPA/Hibernate y base relacional.</li>
+          <li>Frontend en React + Vite con cuotas y resultados que se actualizan en vivo.</li>
+        </ul>
+        <a class="more" href="https://github.com/RafaCH1906/QORIBET">Ver código</a>
+      </article>
+
+      <article class="card">
+        <span class="meta">2026 · Freelance</span>
+        <h3>TransportesCano.com.pe</h3>
+        <p>Landing page corporativa de una empresa de transportes, en producción con dominio .pe propio.</p>
+        <ul>
+          <li>HTML, CSS y JavaScript, con foco en rendimiento y compatibilidad entre navegadores.</li>
+          <li>Mi primer despliegue en un ambiente productivo real.</li>
+        </ul>
+        <a class="more" href="https://transportescano.com.pe">Visitar el sitio</a>
+      </article>
+    </div>
+
+    <div>
+      <p class="label" style="margin-bottom:0.6rem">Más en GitHub</p>
+      <div class="repos">
+        <a href="https://github.com/RafaCH1906/Ecomerce">Ecomerce <span>Java</span></a>
+        <a href="https://github.com/RafaCH1906/reciclafacil">reciclafacil <span>JavaScript</span></a>
+        <a href="https://github.com/RafaCH1906/primos">primos <span>Python</span></a>
+        <a href="https://github.com/RafaCH1906/hackthon">hackthon <span>CSS</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <header>
+      <span class="label">Stack</span>
+      <h2>Con qué trabajo</h2>
+    </header>
+    <div class="stack">
+      <div>
+        <h3>Backend</h3>
+        <ul class="chips">
+          <li class="now">Python</li><li>FastAPI</li><li>Java</li><li>Spring Boot</li><li>JPA / Hibernate</li><li>Node.js</li><li>NestJS</li><li>REST APIs</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Frontend</h3>
+        <ul class="chips">
+          <li>React</li><li>Vite</li><li>TypeScript</li><li>HTML / CSS / JS</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Datos</h3>
+        <ul class="chips">
+          <li>SQL</li><li>MongoDB</li><li class="now">AWS RDS</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Cloud y despliegue</h3>
+        <ul class="chips">
+          <li class="now">AWS Lambda</li><li class="now">Cognito</li><li class="now">API Gateway</li><li class="now">Docker</li><li class="now">Jenkins</li><li>Serverless Framework</li><li>Linux</li><li>Git / GitHub</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Otros</h3>
+        <ul class="chips">
+          <li>C++</li>
+        </ul>
+      </div>
+    </div>
+    <p class="mono" style="font-size:0.8rem;color:var(--muted)">El borde rojo marca lo que uso hoy en el proyecto de bomberos.</p>
+  </section>
+
+  <section id="sobre-mi">
+    <header>
+      <span class="label">Sobre mí</span>
+      <h2>Busco mi primer rol junior en un equipo de producto</h2>
+    </header>
+    <div class="about">
+      <div>
+        <p>Me gusta el backend: diseñar la API, modelar los datos y dejar el despliegue automatizado. También sé armar la interfaz cuando el proyecto lo pide, y así entiendo mejor qué necesita el otro lado del contrato.</p>
+        <p>Trabajé en equipos con reparto claro de roles, ramas por entorno y revisión antes de subir cambios. Quiero seguir creciendo en arquitectura cloud y aportar desde la primera semana.</p>
+      </div>
+      <dl>
+        <div><dt>Educación</dt><dd>Bachillerato en Ciencias de la Computación, UTEC, 2024 – presente</dd></div>
+        <div><dt>Idiomas</dt><dd>Español nativo. Inglés intermedio, con lectura técnica fluida.</dd></div>
+        <div><dt>Busco</dt><dd>Backend o Full-Stack junior, remoto o en Lima</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <header>
+      <span class="label">Contacto</span>
+      <h2>Conversemos</h2>
+    </header>
+    <p style="max-width:36rem">La forma más rápida de escribirme es por LinkedIn. Mi código está en GitHub.</p>
+    <div class="links">
+      <a class="btn" href="https://www.linkedin.com/in/rafael-rodrigo-choque-coaquira-6b7720371/">LinkedIn</a>
+      <a class="btn ghost" href="https://github.com/RafaCH1906">github.com/RafaCH1906</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>Rafael Rodrigo Choque Coaquira</span>
+    <span>Lima, Perú</span>
+  </footer>
+</div>
